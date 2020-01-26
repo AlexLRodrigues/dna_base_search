@@ -37,7 +37,6 @@ public class SimiosService {
 	}
 
 	private boolean diagonalRightToLeftSearch(boolean diagonalRightToLeft, int[][] dnaTable, SimiosSequence sequence) {
-		//Diagonal left to right
 		for (int k = dnaTable[0].length - 1; k >= 0; k--) {
 			int i = k;
 			int j = 0;
@@ -48,7 +47,6 @@ public class SimiosService {
 			}
 
 			if (sequence.getCodes().size() >= 3) {
-				System.out.println("Diagonal LEFT Encontrado");
 				diagonalRightToLeft = true;
 				sequence.getCodes().clear();
 				break;
@@ -68,7 +66,6 @@ public class SimiosService {
 			}
 
 			if (sequence.getCodes().size() >= 3) {
-				System.out.println("Diagonal LEFT pt2 Encontrado");
 				diagonalRightToLeft = true;
 				sequence.getCodes().clear();
 				break;
@@ -80,7 +77,6 @@ public class SimiosService {
 	}
 
 	private boolean diagonalLeftToRightSearch(boolean diagonalLeftToRight, int[][] dnaTable, SimiosSequence sequence) {
-		//Diagonal left to right
 		for (int k = 0; k <= dnaTable.length - 1; k++) {
 			int i = k;
 			int j = 0;
@@ -91,7 +87,6 @@ public class SimiosService {
 			}
 
 			if (sequence.getCodes().size() >= 3) {
-				System.out.println("Diagonal RIGHT Encontrado");
 				diagonalLeftToRight = true;
 				sequence.getCodes().clear();
 				break;
@@ -111,7 +106,6 @@ public class SimiosService {
 			}
 
 			if (sequence.getCodes().size() >= 3) {
-				System.out.println("Diagonal RIGHT pt2 Encontrado");
 				diagonalLeftToRight = true;
 				sequence.getCodes().clear();
 				break;
