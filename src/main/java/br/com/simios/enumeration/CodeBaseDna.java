@@ -1,4 +1,4 @@
-package com.mercadolivre.teste.simios.enumeration;
+package br.com.simios.enumeration;
 
 public enum CodeBaseDna {
 

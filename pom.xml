@@ -8,8 +8,8 @@
 		<version>2.2.2.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.mercadolivre</groupId>
-	<artifactId>teste.simios</artifactId>
+	<groupId>br.com</groupId>
+	<artifactId>simios</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>teste.simios</name>

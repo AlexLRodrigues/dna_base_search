@@ -1,4 +1,4 @@
-package com.mercadolivre.teste.simios.dto;
+package br.com.simios.dto;
 
 import java.io.Serializable;
 
