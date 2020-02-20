@@ -4,6 +4,13 @@
 # Log file
 *.log
 
+#Intelij
+.idea/
+*.iml
+
+.mvn/
+
+
 # Eclipse
 .DS_Store
 .classpath
