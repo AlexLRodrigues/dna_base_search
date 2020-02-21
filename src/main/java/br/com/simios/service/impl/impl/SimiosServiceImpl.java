@@ -28,7 +28,7 @@ public class SimiosServiceImpl implements SimiosService {
 		if (dna.length < 4) throw new Exception();
 
 		for (String line : dna) {
-			if (line.length() < 4 || line.length() < dna.length)
+			if (line.length() != dna.length)
 				throw new Exception();
 		}
 	}
