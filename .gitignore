@@ -8,8 +8,6 @@
 .idea/
 *.iml
 
-.mvn/
-
 target/
 
 
