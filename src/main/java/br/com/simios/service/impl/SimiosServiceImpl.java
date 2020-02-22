@@ -1,6 +1,6 @@
 package br.com.simios.service.impl;
 
-import br.com.simios.service.impl.SimiosService;
+import br.com.simios.service.SimiosService;
 
 import java.util.regex.Pattern;
 
