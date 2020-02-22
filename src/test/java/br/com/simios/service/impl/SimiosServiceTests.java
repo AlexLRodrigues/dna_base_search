@@ -1,7 +1,6 @@
 package br.com.simios.service.impl;
 
 import br.com.simios.builder.DnaBuilder;
-import br.com.simios.service.impl.impl.SimiosServiceImpl;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,4 +1,4 @@
-package br.com.simios.service.impl;
+package br.com.simios.service;
 
 public interface SimiosService {
 	
