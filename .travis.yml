@@ -5,3 +5,7 @@ jdk:
 
 before_install:
   - cd java
+
+cache:
+  directories:
+    - $HOME/.m2
