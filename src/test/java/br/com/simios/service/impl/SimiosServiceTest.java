@@ -8,7 +8,7 @@ import org.mockito.InjectMocks;
 import org.mockito.junit.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public class SimiosServiceTests {
+public class SimiosServiceTest {
 
     @InjectMocks
     private SimiosServiceImpl simiosServiceImpl;
