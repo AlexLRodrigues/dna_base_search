@@ -18,10 +18,10 @@ script:
   # other script steps might be done before running the actual analysis
   - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=AlexLRodrigues_dna_base_search
 
-deploy:
-  provider: heroku
-  api_key:
-    secure: f4240002-22d7-4438-8e77-074aebc5556f
-  app: dna-base-search
-  on:
-    repo: AlexLRodrigues/dna_base_search
+#deploy:
+#  provider: heroku
+#  api_key:
+#    secure: f4240002-22d7-4438-8e77-074aebc5556f
+#  app: dna-base-search
+#  on:
+#    repo: AlexLRodrigues/dna_base_search
