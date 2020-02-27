@@ -1,6 +1,7 @@
 package br.com.simios.service.impl;
 
 import br.com.simios.builder.DnaBuilder;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -27,12 +28,12 @@ public class SimiosServiceImplTest {
         simiosServiceImpl.isSimian(dnaBuilder.getInvalidLettersDNA());
     }
 
-//    @Test
-//    public void isSimianHorizontal() throws Exception {
-//        dna = dnaBuilder.getSimianHorizontal();
-//        Assert.assertTrue(simiosServiceImpl.isSimian(dna));
-//    }
-//
+    @Test
+    public void isSimianHorizontal() throws Exception {
+        dna = dnaBuilder.getSimianHorizontal();
+        Assert.assertTrue(simiosServiceImpl.isSimian(dna));
+    }
+
 //    @Test
 //    public void isSimianVertical() throws Exception {
 //        dna = dnaBuilder.getSimianVertical();
