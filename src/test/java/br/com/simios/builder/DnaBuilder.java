@@ -19,7 +19,7 @@ public class DnaBuilder {
     }
 
     public String[] getSimianHorizontal() {
-        return new String[] {"AAAA","AAAA","CCCC","TTTT"};
+        return new String[] {"ACTGAAAA","ACTGAAAA","ACTGAAAA","ACTGAAAA", "ACTGAAAA", "ACTGAAAA", "ACTGAAAA", "ACTGAAAA"};
     }
 
     public String[] getSimianVertical() {

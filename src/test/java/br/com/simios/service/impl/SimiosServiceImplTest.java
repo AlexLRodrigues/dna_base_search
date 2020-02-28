@@ -34,21 +34,21 @@ public class SimiosServiceImplTest {
         Assert.assertTrue(simiosServiceImpl.isSimian(dna));
     }
 
-//    @Test
-//    public void isSimianVertical() throws Exception {
-//        dna = dnaBuilder.getSimianVertical();
-//        Assert.assertTrue(simiosServiceImpl.isSimian(dna));
-//    }
-//
+    @Test
+    public void isSimianVertical() throws Exception {
+        dna = dnaBuilder.getSimianVertical();
+        Assert.assertTrue(simiosServiceImpl.isSimian(dna));
+    }
+
+    @Test
+    public void isSimianHorizontalAndVertical() throws Exception {
+        dna = dnaBuilder.getSimianHorizontalAndVertical();
+        Assert.assertTrue(simiosServiceImpl.isSimian(dna));
+    }
+
 //    @Test
 //    public void isSimianDiagonal() throws Exception {
 //        dna = dnaBuilder.getSimianDiagonal();
-//        Assert.assertTrue(simiosServiceImpl.isSimian(dna));
-//    }
-//
-//    @Test
-//    public void isSimianHorizontalAndVertical() throws Exception {
-//        dna = dnaBuilder.getSimianHorizontalAndVertical();
 //        Assert.assertTrue(simiosServiceImpl.isSimian(dna));
 //    }
 //
