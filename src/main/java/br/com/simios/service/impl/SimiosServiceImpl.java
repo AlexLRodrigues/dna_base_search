@@ -27,10 +27,7 @@ public class SimiosServiceImpl implements SimiosService {
 
 		foundCount = searchDiagonal(dnaTable, foundCount);
 
-		if (foundCount >= 2)
-			return true;
-
-		return false;
+		return foundCount >= 2;
 	}
 
 	private int searchDiagonal(char[][] dnaTable, int foundCount) {
