@@ -43,62 +43,38 @@ public class SimiosServiceImpl implements SimiosService {
 
 		for (int i = 1; i <= diagonalLines; i++) {
 
-			int rowIndexLR;
-			int columnIndexLR;
+			int rowIndexLeftRight;
+			int columnIndexLeftRight;
 
-			int rowIndexRL;
-			int columnIndexRL;
+			int rowIndexRightLeft;
+			int columnIndexRightLeft;
 
 			if (i <= midPoint) {
 				itemsInDiagonal++;
 				for (int j = 0; j < itemsInDiagonal; j++) {
-					rowIndexLR = (i - j) - 1;
-					columnIndexLR = j;
+					rowIndexLeftRight = (i - j) - 1;
+					columnIndexLeftRight = j;
 
-					if (!listLeftRight.isEmpty() && !listLeftRight.get(0).equals(dnaTable[rowIndexLR][columnIndexLR]))
-						listLeftRight.clear();
+					foundCount = getFoundCount(dnaTable, foundCount, listLeftRight, rowIndexLeftRight, columnIndexLeftRight);
 
-					listLeftRight.add(dnaTable[rowIndexLR][columnIndexLR]);
+					rowIndexRightLeft = (length - i) + j;
+					columnIndexRightLeft = j;
 
-					if (listLeftRight.size() >= 4)
-						foundCount++;
-
-					rowIndexRL = (length - i) + j;
-					columnIndexRL = j;
-
-					if (!listRightLeft.isEmpty() && !listRightLeft.get(0).equals(dnaTable[rowIndexRL][columnIndexRL]))
-						listRightLeft.clear();
-
-					listRightLeft.add(dnaTable[rowIndexRL][columnIndexRL]);
-
-					if (listRightLeft.size() >= 4)
-						foundCount++;
+					foundCount = getFoundCount(dnaTable, foundCount, listRightLeft, rowIndexRightLeft, columnIndexRightLeft);
 
 				}
 			} else {
 				itemsInDiagonal--;
 				for (int j = 0; j < itemsInDiagonal; j++) {
-					rowIndexLR = (length - 1) - j;
-					columnIndexLR = (i - length) + j;
+					rowIndexLeftRight = (length - 1) - j;
+					columnIndexLeftRight = (i - length) + j;
 
-					if (!listLeftRight.isEmpty() && !listLeftRight.get(0).equals(dnaTable[rowIndexLR][columnIndexLR]))
-						listLeftRight.clear();
+					foundCount = getFoundCount(dnaTable, foundCount, listLeftRight, rowIndexLeftRight, columnIndexLeftRight);
 
-					listLeftRight.add(dnaTable[rowIndexLR][columnIndexLR]);
+					rowIndexRightLeft = j;
+					columnIndexRightLeft = (i - length) + j;
 
-					if (listLeftRight.size() >= 4)
-						foundCount++;
-
-					rowIndexRL = j;
-					columnIndexRL = (i - length) + j;
-
-					if (!listRightLeft.isEmpty() && !listRightLeft.get(0).equals(dnaTable[rowIndexRL][columnIndexRL]))
-						listRightLeft.clear();
-
-					listRightLeft.add(dnaTable[rowIndexRL][columnIndexRL]);
-
-					if (listRightLeft.size() >= 4)
-						foundCount++;
+					foundCount = getFoundCount(dnaTable, foundCount, listRightLeft, rowIndexRightLeft, columnIndexRightLeft);
 				}
 			}
 			listLeftRight.clear();
@@ -107,6 +83,18 @@ public class SimiosServiceImpl implements SimiosService {
 			if (foundCount >= 2)
 				return foundCount;
 		}
+		return foundCount;
+	}
+
+	private int getFoundCount(char[][] dnaTable, int foundCount, List<Character> list, int rowIndex, int columnIndex) {
+		if (!list.isEmpty() && !list.get(0).equals(dnaTable[rowIndex][columnIndex]))
+			list.clear();
+
+		list.add(dnaTable[rowIndex][columnIndex]);
+
+		if (list.size() >= 4)
+			foundCount++;
+
 		return foundCount;
 	}
 
@@ -119,13 +107,7 @@ public class SimiosServiceImpl implements SimiosService {
 				if (list.size() + dnaTable.length - j < 4)
 					break;
 
-				if (!list.isEmpty() && !list.get(0).equals(dnaTable[j][i]))
-					list.clear();
-
-				list.add(dnaTable[j][i]);
-
-				if (list.size() >= 4)
-					foundCount++;
+				foundCount = getFoundCount(dnaTable, foundCount, list, j, i);
 
 				if (foundCount >= 2)
 					return foundCount;
@@ -166,9 +148,7 @@ public class SimiosServiceImpl implements SimiosService {
 
 		for (int i = 0; i < dna.length; i++) {
 			char[] letters = dna[i].toCharArray();
-			for (int j = 0; j < letters.length; j++) {
-				table[i][j] = letters[j];
-			}
+			System.arraycopy(letters, 0, table[i], 0, letters.length);
 		}
 
 		return table;
