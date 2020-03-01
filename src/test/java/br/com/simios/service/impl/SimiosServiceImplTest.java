@@ -46,34 +46,34 @@ public class SimiosServiceImplTest {
         Assert.assertTrue(simiosServiceImpl.isSimian(dna));
     }
 
-//    @Test
-//    public void isSimianDiagonal() throws Exception {
-//        dna = dnaBuilder.getSimianDiagonal();
-//        Assert.assertTrue(simiosServiceImpl.isSimian(dna));
-//    }
-//
-//    @Test
-//    public void isSimianVerticalAndDiagonal() throws Exception {
-//        dna = dnaBuilder.getSimianVerticalAndDiagonal();
-//        Assert.assertTrue(simiosServiceImpl.isSimian(dna));
-//    }
-//
-//    @Test
-//    public void isSimianHorizontalAndDiagonal() throws Exception {
-//        dna = dnaBuilder.getSimianHorizontalAndDiagonal();
-//        Assert.assertTrue(simiosServiceImpl.isSimian(dna));
-//    }
-//
-//    @Test
-//    public void isSimian() throws Exception {
-//        dna = dnaBuilder.getSimian();
-//        Assert.assertTrue(simiosServiceImpl.isSimian(dna));
-//    }
-//
-//    @Test
-//    public void notIsSimian() throws Exception {
-//        dna = dnaBuilder.getNotSimian();
-//        Assert.assertTrue(simiosServiceImpl.isSimian(dna));
-//    }
+    @Test
+    public void isSimianDiagonal() throws Exception {
+        dna = dnaBuilder.getSimianDiagonal();
+        Assert.assertTrue(simiosServiceImpl.isSimian(dna));
+    }
+
+    @Test
+    public void isSimianVerticalAndDiagonal() throws Exception {
+        dna = dnaBuilder.getSimianVerticalAndDiagonal();
+        Assert.assertTrue(simiosServiceImpl.isSimian(dna));
+    }
+
+    @Test
+    public void isSimianHorizontalAndDiagonal() throws Exception {
+        dna = dnaBuilder.getSimianHorizontalAndDiagonal();
+        Assert.assertTrue(simiosServiceImpl.isSimian(dna));
+    }
+
+    @Test
+    public void isSimian() throws Exception {
+        dna = dnaBuilder.getSimian();
+        Assert.assertTrue(simiosServiceImpl.isSimian(dna));
+    }
+
+    @Test
+    public void notIsSimian() throws Exception {
+        dna = dnaBuilder.getNotSimian();
+        Assert.assertFalse(simiosServiceImpl.isSimian(dna));
+    }
 
 }

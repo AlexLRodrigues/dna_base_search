@@ -25,7 +25,92 @@ public class SimiosServiceImpl implements SimiosService {
 		if (foundCount >= 2)
 			return true;
 
+		foundCount = searchDiagonal(dnaTable, foundCount);
+
+		if (foundCount >= 2)
+			return true;
+
 		return false;
+	}
+
+	private int searchDiagonal(char[][] dnaTable, int foundCount) {
+
+		int length = dnaTable.length;
+		int diagonalLines = (length + length) - 1;
+		int midPoint = (diagonalLines / 2) + 1;
+
+		int itemsInDiagonal = 0;
+
+		List<Character> listLeftRight = new ArrayList<>();
+		List<Character> listRightLeft = new ArrayList<>();
+
+		for (int i = 1; i <= diagonalLines; i++) {
+
+			int rowIndexLR;
+			int columnIndexLR;
+
+			int rowIndexRL;
+			int columnIndexRL;
+
+			if (i <= midPoint) {
+				itemsInDiagonal++;
+				for (int j = 0; j < itemsInDiagonal; j++) {
+					rowIndexLR = (i - j) - 1;
+					columnIndexLR = j;
+
+					if (!listLeftRight.isEmpty() && !listLeftRight.get(0).equals(dnaTable[rowIndexLR][columnIndexLR]))
+						listLeftRight.clear();
+
+					listLeftRight.add(dnaTable[rowIndexLR][columnIndexLR]);
+
+					if (listLeftRight.size() >= 4)
+						foundCount++;
+
+					rowIndexRL = (length - i) + j;
+					columnIndexRL = j;
+
+					if (!listRightLeft.isEmpty() && !listRightLeft.get(0).equals(dnaTable[rowIndexRL][columnIndexRL]))
+						listRightLeft.clear();
+
+					listRightLeft.add(dnaTable[rowIndexRL][columnIndexRL]);
+
+					if (listRightLeft.size() >= 4)
+						foundCount++;
+
+				}
+			} else {
+				itemsInDiagonal--;
+				for (int j = 0; j < itemsInDiagonal; j++) {
+					rowIndexLR = (length - 1) - j;
+					columnIndexLR = (i - length) + j;
+
+					if (!listLeftRight.isEmpty() && !listLeftRight.get(0).equals(dnaTable[rowIndexLR][columnIndexLR]))
+						listLeftRight.clear();
+
+					listLeftRight.add(dnaTable[rowIndexLR][columnIndexLR]);
+
+					if (listLeftRight.size() >= 4)
+						foundCount++;
+
+					rowIndexRL = j;
+					columnIndexRL = (i - length) + j;
+
+					if (!listRightLeft.isEmpty() && !listRightLeft.get(0).equals(dnaTable[rowIndexRL][columnIndexRL]))
+						listRightLeft.clear();
+
+					listRightLeft.add(dnaTable[rowIndexRL][columnIndexRL]);
+
+					if (listRightLeft.size() >= 4)
+						foundCount++;
+				}
+			}
+			listLeftRight.clear();
+			listRightLeft.clear();
+
+			if (foundCount >= 2)
+				return foundCount;
+		}
+		return foundCount;
 	}
 
 	private int searchVertical(char[][] dnaTable, int foundCount) {

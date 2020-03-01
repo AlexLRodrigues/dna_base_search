@@ -7,7 +7,7 @@ public class DnaBuilder {
     }
 
     public String[] getNotSimian() {
-        return new String[] {"ACTG","ACTG","ACTG","ACTG"};
+        return new String[] {"ACTG","CTGA","ACTG","ACTG"};
     }
 
     public String[] getInvalidLettersDNA() {
