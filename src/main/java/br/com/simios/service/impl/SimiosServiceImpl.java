@@ -2,177 +2,174 @@ package br.com.simios.service.impl;
 
 import br.com.simios.exceptions.ExceptionDefault;
 import br.com.simios.service.SimiosService;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+@Service
 public class SimiosServiceImpl implements SimiosService {
 
-	@Override
-	public boolean isSimian(String[] dna) throws Exception {
-		validatesDNA(dna);
+    private int sequenceCount = 0;
 
-		final char[][] dnaTable = buildTable(dna);
+    @Override
+    public boolean isSimian(String[] dna) throws Exception {
 
-		int foundCount  = searchHorizontal(dnaTable);
+        validatesDNA(dna);
+        sequenceCount = 0;
 
-		if (foundCount >= 2)
-			return true;
+        final char[][] dnaTable = buildTable(dna);
 
-		foundCount = searchVertical(dnaTable, foundCount);
+        searchHorizontal(dnaTable);
 
-		if (foundCount >= 2)
-			return true;
+        if (sequenceCount >= 2)
+            return true;
 
-		foundCount = searchDiagonal(dnaTable, foundCount);
+        searchVertical(dnaTable);
 
-		return foundCount >= 2;
-	}
+        if (sequenceCount >= 2)
+            return true;
 
-	private int searchDiagonal(char[][] dnaTable, int foundCount) {
+        searchDiagonal(dnaTable);
 
-		int length = dnaTable.length;
-		int diagonalLines = (length + length) - 1;
-		int midPoint = (diagonalLines / 2) + 1;
+        return sequenceCount >= 2;
+    }
 
-		int itemsInDiagonal = 0;
+    private void searchDiagonal(char[][] dnaTable) {
 
-		List<Character> listLeftRight = new ArrayList<>();
-		List<Character> listRightLeft = new ArrayList<>();
+        int length = dnaTable.length;
+        int diagonalLines = (length + length) - 1;
+        int midPoint = (diagonalLines / 2) + 1;
 
-		for (int i = 1; i <= diagonalLines; i++) {
+        int itemsInDiagonal = 0;
 
-			int rowIndexLeftRight;
-			int columnIndexLeftRight;
+        List<Character> sequenceLeftRight = new ArrayList<>();
+        List<Character> sequenceRightLeft = new ArrayList<>();
 
-			int rowIndexRightLeft;
-			int columnIndexRightLeft;
+        for (int i = 1; i <= diagonalLines; i++) {
 
-			if (i <= midPoint) {
-				itemsInDiagonal++;
-				for (int j = 0; j < itemsInDiagonal; j++) {
-					rowIndexLeftRight = (i - j) - 1;
-					columnIndexLeftRight = j;
+            int rowIndexLeftRight;
+            int columnIndexLeftRight;
 
-					foundCount = getFoundCount(dnaTable, foundCount, listLeftRight, rowIndexLeftRight, columnIndexLeftRight);
+            int rowIndexRightLeft;
+            int columnIndexRightLeft;
 
-					rowIndexRightLeft = (length - i) + j;
-					columnIndexRightLeft = j;
+            if (i <= midPoint) {
+                itemsInDiagonal++;
+                for (int j = 0; j < itemsInDiagonal; j++) {
+                    rowIndexLeftRight = (i - j) - 1;
+                    columnIndexLeftRight = j;
 
-					foundCount = getFoundCount(dnaTable, foundCount, listRightLeft, rowIndexRightLeft, columnIndexRightLeft);
+                    sequenceCount = getCountSequence(dnaTable, sequenceLeftRight, rowIndexLeftRight, columnIndexLeftRight);
 
-				}
-			} else {
-				itemsInDiagonal--;
-				for (int j = 0; j < itemsInDiagonal; j++) {
-					rowIndexLeftRight = (length - 1) - j;
-					columnIndexLeftRight = (i - length) + j;
+                    rowIndexRightLeft = (length - i) + j;
+                    columnIndexRightLeft = j;
 
-					foundCount = getFoundCount(dnaTable, foundCount, listLeftRight, rowIndexLeftRight, columnIndexLeftRight);
+                    sequenceCount = getCountSequence(dnaTable, sequenceRightLeft, rowIndexRightLeft, columnIndexRightLeft);
 
-					rowIndexRightLeft = j;
-					columnIndexRightLeft = (i - length) + j;
+                }
+            } else {
+                itemsInDiagonal--;
+                for (int j = 0; j < itemsInDiagonal; j++) {
+                    rowIndexLeftRight = (length - 1) - j;
+                    columnIndexLeftRight = (i - length) + j;
 
-					foundCount = getFoundCount(dnaTable, foundCount, listRightLeft, rowIndexRightLeft, columnIndexRightLeft);
-				}
-			}
-			listLeftRight.clear();
-			listRightLeft.clear();
+                    sequenceCount = getCountSequence(dnaTable, sequenceLeftRight, rowIndexLeftRight, columnIndexLeftRight);
 
-			if (foundCount >= 2)
-				return foundCount;
-		}
-		return foundCount;
-	}
+                    rowIndexRightLeft = j;
+                    columnIndexRightLeft = (i - length) + j;
 
-	private int getFoundCount(char[][] dnaTable, int foundCount, List<Character> list, int rowIndex, int columnIndex) {
-		if (!list.isEmpty() && !list.get(0).equals(dnaTable[rowIndex][columnIndex]))
-			list.clear();
+                    sequenceCount = getCountSequence(dnaTable, sequenceRightLeft, rowIndexRightLeft, columnIndexRightLeft);
+                }
+            }
+            sequenceLeftRight.clear();
+            sequenceRightLeft.clear();
 
-		list.add(dnaTable[rowIndex][columnIndex]);
+            if (sequenceCount >= 2)
+                return;
+        }
+    }
 
-		if (list.size() >= 4)
-			foundCount++;
+    private int getCountSequence(char[][] dnaTable, List<Character> sequence, int rowIndex, int columnIndex) {
 
-		return foundCount;
-	}
+        if (!sequence.isEmpty() && !sequence.get(0).equals(dnaTable[rowIndex][columnIndex]))
+            sequence.clear();
 
-	private int searchVertical(char[][] dnaTable, int foundCount) {
-		List<Character> list = new ArrayList<>();
+        sequence.add(dnaTable[rowIndex][columnIndex]);
 
-		for (int i = 0; i < dnaTable.length; i++) {
-			for (int j = 0; j < dnaTable[i].length; j++) {
+        if (sequence.size() >= 4) {
+            sequenceCount++;
+            sequence.clear();
+        }
 
-				if (list.size() + dnaTable.length - j < 4)
-					break;
+        return sequenceCount;
+    }
 
-				foundCount = getFoundCount(dnaTable, foundCount, list, j, i);
+    private void searchVertical(char[][] dnaTable) {
+        List<Character> sequence = new ArrayList<>();
 
-				if (foundCount >= 2)
-					return foundCount;
-			}
-		}
-		return foundCount;
-	}
+        for (int i = 0; i < dnaTable.length; i++) {
+            for (int j = 0; j < dnaTable[i].length; j++) {
 
-	private int searchHorizontal(char[][] dnaTable) {
-		int count = 0;
-		List<Character> list = new ArrayList<>();
+                if (sequence.size() + dnaTable.length - j < 4)
+                    break;
 
-		for (int i = 0; i < dnaTable.length; i++) {
-			for (int j = 0; j < dnaTable[i].length; j++) {
+                sequenceCount = getCountSequence(dnaTable, sequence, j, i);
 
-				if (list.size() + dnaTable.length - i < 4)
-					break;
+                if (sequenceCount >= 2)
+                    return;
+            }
+        }
+    }
 
-				if (!list.isEmpty() && !list.get(0).equals(dnaTable[i][j]))
-					list.clear();
+    private void searchHorizontal(char[][] dnaTable) {
+        List<Character> sequence = new ArrayList<>();
 
-				list.add(dnaTable[i][j]);
+        for (int i = 0; i < dnaTable.length; i++) {
+            for (int j = 0; j < dnaTable[i].length; j++) {
 
-				if (list.size() >= 4) {
-					count++;
-					list.clear();
-				}
+                if (sequence.size() + dnaTable.length - i < 4)
+                    break;
 
-				if (count >= 2)
-					return count;
-			}
-		}
-		return count;
-	}
+                sequenceCount = getCountSequence(dnaTable, sequence, i, j);
 
-	private char[][] buildTable(String[] dna) {
-		char[][] table = new char[dna.length][dna.length];
+                if (sequenceCount >= 2)
+                    return;
+            }
+        }
+    }
 
-		for (int i = 0; i < dna.length; i++) {
-			char[] letters = dna[i].toCharArray();
-			System.arraycopy(letters, 0, table[i], 0, letters.length);
-		}
+    private char[][] buildTable(String[] dna) {
+        char[][] table = new char[dna.length][dna.length];
 
-		return table;
-	}
+        for (int i = 0; i < dna.length; i++) {
+            char[] letters = dna[i].toCharArray();
+            System.arraycopy(letters, 0, table[i], 0, letters.length);
+        }
 
-	private void validatesDNA(String[] dna) throws Exception {
-		validatesSizeDNA(dna);
-		validatesLettersDNA(dna);
-	}
+        return table;
+    }
 
-	private void validatesLettersDNA(String[] dna) throws Exception {
-		for (String line : dna) {
-			if (!Pattern.matches(".*[ACTG]",line))
-				throw new ExceptionDefault();
-		}
-	}
+    private void validatesDNA(String[] dna) throws Exception {
+        validatesSizeDNA(dna);
+        validatesLettersDNA(dna);
+    }
 
-	private void validatesSizeDNA(String[] dna) throws Exception {
-		if (dna.length < 4) throw new Exception();
+    private void validatesLettersDNA(String[] dna) throws Exception {
+        for (String line : dna) {
+            if (!Pattern.matches(".*[ACTG]", line))
+                throw new ExceptionDefault();
+        }
+    }
 
-		for (String line : dna) {
-			if (line.length() != dna.length)
-				throw new ExceptionDefault();
-		}
-	}
+    private void validatesSizeDNA(String[] dna) throws Exception {
+        if (dna.length < 4) throw new Exception();
+
+        for (String line : dna) {
+            if (line.length() != dna.length)
+                throw new ExceptionDefault();
+        }
+    }
 
 }
