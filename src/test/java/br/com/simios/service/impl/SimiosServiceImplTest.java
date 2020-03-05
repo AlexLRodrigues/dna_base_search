@@ -1,6 +1,7 @@
 package br.com.simios.service.impl;
 
 import br.com.simios.builder.DnaBuilder;
+import br.com.simios.dto.StatsDTO;
 import br.com.simios.entities.Dna;
 import br.com.simios.repository.DnaRepository;
 import org.junit.Assert;
@@ -11,6 +12,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
+
+import java.util.Arrays;
 
 import static org.mockito.Mockito.*;
 
@@ -89,6 +92,19 @@ public class SimiosServiceImplTest {
     public void notIsSimian() throws Exception {
         dna = dnaBuilder.getNotSimian();
         Assert.assertFalse(simiosServiceImpl.isSimian(dna));
+    }
+
+    @Test
+    public void getStatus() {
+        Dna dna1 = new Dna();
+        Dna dna2 = new Dna();
+        dna1.setSimian(true);
+        dna2.setSimian(false);
+        when(dnaRepository.findAll()).thenReturn(Arrays.asList(dna1,dna2));
+        StatsDTO status = simiosServiceImpl.getStatus();
+        Assert.assertEquals("Expected 1",1,status.getCount_human_dna());
+        Assert.assertEquals("Expected 1",1,status.getCount_mutant_dna());
+        Assert.assertEquals("Expected 1.0",1.0,status.getRatio(),0);
     }
 
 }
