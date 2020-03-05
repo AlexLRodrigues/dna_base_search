@@ -36,7 +36,7 @@ public class SimiosServiceImpl implements SimiosService {
         searchDiagonal(dnaTable);
 
         if (sequenceCount >= 2) {
-            Dna dnaTest = dnaRepository.save(new Dna(true));
+            dnaRepository.save(new Dna(true));
             return true;
         }
 

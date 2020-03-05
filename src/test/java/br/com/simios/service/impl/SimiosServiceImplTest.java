@@ -1,14 +1,24 @@
 package br.com.simios.service.impl;
 
 import br.com.simios.builder.DnaBuilder;
+import br.com.simios.entities.Dna;
+import br.com.simios.repository.DnaRepository;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
+
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SimiosServiceImplTest {
+
+    @Mock
+    private DnaRepository dnaRepository;
 
     @InjectMocks
     private SimiosServiceImpl simiosServiceImpl;
@@ -16,6 +26,11 @@ public class SimiosServiceImplTest {
     private String[] dna;
 
     private DnaBuilder dnaBuilder = new DnaBuilder();
+
+    @Before
+    public void setUp(){
+        when(dnaRepository.save(Mockito.any())).thenReturn(new Dna());
+    }
 
 
     @Test(expected=Exception.class)
