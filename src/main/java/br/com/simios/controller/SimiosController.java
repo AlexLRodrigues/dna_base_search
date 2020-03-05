@@ -1,11 +1,13 @@
 package br.com.simios.controller;
 
 import br.com.simios.dto.DnaDTO;
+import br.com.simios.dto.StatsDTO;
 import br.com.simios.service.SimiosService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -26,5 +28,10 @@ public class SimiosController {
         } catch (Exception e) {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
+    }
+
+    @GetMapping(value = "/stats")
+    public ResponseEntity<StatsDTO> getStats(){
+        return new ResponseEntity<StatsDTO>(simiosService.getStatus(), HttpStatus.OK);
     }
 }

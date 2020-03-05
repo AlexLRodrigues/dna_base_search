@@ -1,7 +1,11 @@
 package br.com.simios.service.impl;
 
+import br.com.simios.dto.StatsDTO;
+import br.com.simios.entities.Dna;
 import br.com.simios.exceptions.ExceptionDefault;
+import br.com.simios.repository.DnaRepository;
 import br.com.simios.service.SimiosService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -13,27 +17,55 @@ public class SimiosServiceImpl implements SimiosService {
 
     private int sequenceCount = 0;
 
+    @Autowired
+    private DnaRepository dnaRepository;
+
     @Override
     public boolean isSimian(String[] dna) throws Exception {
 
         validatesDNA(dna);
+
         sequenceCount = 0;
 
         final char[][] dnaTable = buildTable(dna);
 
         searchHorizontal(dnaTable);
 
-        if (sequenceCount >= 2)
-            return true;
-
         searchVertical(dnaTable);
-
-        if (sequenceCount >= 2)
-            return true;
 
         searchDiagonal(dnaTable);
 
-        return sequenceCount >= 2;
+        if (sequenceCount >= 2) {
+            Dna dnaTest = dnaRepository.save(new Dna(true));
+            return true;
+        }
+
+        dnaRepository.save(new Dna(false));
+        return false;
+    }
+
+    @Override
+    public StatsDTO getStatus() {
+        int countSimian = 0;
+        int countNotSimian = 0;
+        List<Dna> listDna = dnaRepository.findAll();
+
+        for (Dna dna : listDna) {
+            if (dna.isSimian())
+                countSimian++;
+            else
+                countNotSimian++;
+        }
+
+        double ratio;
+
+        if (countNotSimian == 0)
+            ratio = 1.0;
+        else
+            ratio = (double) countSimian/(double) countNotSimian;
+
+        StatsDTO statsDTO = new StatsDTO(countSimian, countNotSimian, ratio);
+        return statsDTO;
     }
 
     private void searchDiagonal(char[][] dnaTable) {
