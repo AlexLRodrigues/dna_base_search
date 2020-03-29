@@ -13,8 +13,8 @@ dist: trusty
 addons:
   sonarcloud:
     organization: "alexlrodrigues"
-    token:
-      secure: "3d1d64ed8d5da415e512bf7d22402e3d59b8757d"
+    token: ${SONAR_TOKEN}
+
 script:
   # other script steps might be done before running the actual analysis
   - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar
